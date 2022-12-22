@@ -1,0 +1,136 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+:root {
+    --max-width: 1280px;
+    --aside-width: 300px;
+    --h-font-size: 0.9rem;
+    --main-color: rgb(243, 60, 60);
+    --footer-color:rgb(131, 131, 131);
+    --header-color:rgb(169, 169, 169);
+}
+body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family:'Lato', 'Noto Sans KR', sans-serif;
+}
+.section {
+    /* margin-top: 64px; */
+    margin: 0 auto;
+    width: var(--max-width);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+fieldset,
+img {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+input {
+    margin: 0;
+    padding: 0;
+    background-color: inherit;
+    border: unset;
+    color: inherit;
+    font: inherit;
+    outline: none;
+}
+input[type=search] {padding-right: 10px;}
+
+input::-webkit-search-decoration,
+input::-webkit-search-cancel-button,
+input::-webkit-search-results-button,
+input::-webkit-search-results-decoration{
+    -webkit-appearance: none;
+    width:20px; height:20px; background: url(../img/x_icon.png) center center no-repeat;
+    cursor: pointer;
+}
+ul,
+ol,
+li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+table,
+th,
+td {
+    margin: 0;
+    padding: 0;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+figure {
+    /* 이미지 그룹화 하는 태그 */
+    margin: 0;
+    padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: unset;
+    font-weight: unset;
+    margin: 0;
+    padding: 0;
+}
+
+dl,
+dt,
+dd,
+p {
+    margin: 0;
+    padding: 0;
+}
+
+a:link,
+a:visited,
+a {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    color: inherit;
+}
+
+address {
+    font-style: normal;
+    font-size: unset;
+    font-weight: unset;
+}
+
+small {
+    font-size: unset;
+    font-weight: unset;
+}
+
+hr {
+    display: none;
+}
+
+.hidden {
+    position: absolute;
+    left: -999999px;
+}
+
+button {
+    margin: 0;
+    padding: 0;
+    background-color: inherit;
+    border: unset;
+    color: inherit;
+    font: inherit;
+    outline: none;
+}
