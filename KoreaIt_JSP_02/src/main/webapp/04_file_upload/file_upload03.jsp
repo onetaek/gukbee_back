@@ -7,14 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<%
-		int num1 = 5;
-	%>
-	<!-- action태그는 directive태그와 달리 변수 호환이 안됌 -->
-	<jsp:include page="sample_02_include.jsp" flush="false"/>
-	<br>
-	<%
-		//out.println(num1 * num2);
-	%>
+	<form action="file_upload03_proc.jsp" method="post" enctype="multipart/form-data">
+		<p> 파 일 : <input type="file" name="filename"></p>
+		<p> <input type="submit" value="파일 올리기"/></p>
+	</form>
 </body>
 </html>

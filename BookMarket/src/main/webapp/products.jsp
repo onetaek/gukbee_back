@@ -31,6 +31,8 @@
 					Product product = listOfProducts.get(i);
 			%>
 			<div class="col-md-4">
+				<img class="my_img" src="${pageContext.request.contextPath }/resources/images/<%=product.getFilename()%>
+				" style="width:100%";/>
 				<h3><a href="./product.jsp?id=<%=product.getProductId() %>"><%=product.getPname() %></a></h3>
 				<p><%=product.getDescription() %></p>
 				<p><%=product.getUnitPrice() %></p>

@@ -9,11 +9,14 @@ public class Product {
 	private String category; //분류
 	private long unitsInStock; //재고수
 	private String condition; //신상품 or 중고품 or 재생품
+	private String filename; //이미지 파일
 	
 	public Product() {
 		super();
 	}
 	
+
+
 	public Product(String productId, String pname, Integer unitProce) {
 		this.productId = productId;
 		this.pname = pname;
@@ -68,6 +71,12 @@ public class Product {
 	public void setCondition(String condition) {
 		this.condition = condition;
 	}
-	
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
 	
 }
