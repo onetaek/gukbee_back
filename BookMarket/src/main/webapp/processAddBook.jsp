@@ -1,3 +1,7 @@
+<%@page import="java.util.Enumeration"%>
+<%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
+<%@page import="com.oreilly.servlet.MultipartRequest"%>
+<%@page import="java.io.File"%>
 <%@page import="dao.BookRepository"%>
 <%@page import="dto.Book"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -12,17 +16,30 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	
-	String bookId = request.getParameter("bookId");
-	String name = request.getParameter("name");
-	String unitPrice = request.getParameter("unitPrice");
-	String author = request.getParameter("author");
-	String description = request.getParameter("description");
-	String publisher = request.getParameter("publisher");
-	String category = request.getParameter("category");
-	String unitsInStock = request.getParameter("unitsInStock");
-	String totalPages = request.getParameter("totalPages");
-	String condition = request.getParameter("condition");
-	String releaseDate = request.getParameter("releaseDate");
+	String realPath = request.getServletContext().getRealPath("resources/images");
+	File dir = new File(realPath);
+	if(!dir.exists()){//dir경로에 디렉터리가 없다면
+		dir.mkdirs();//make 해줘라
+	}
+	
+	String filename = "";
+	String encType = "utf-8";//인코딩 타입
+	int maxSize = 5 * 1024 * 1024; //최대 업로드될 파일의 크기 5MB
+	
+	//파일을 받아야하기 때문에 MultipartRequest라는 클래스를 사용해서 받음
+	MultipartRequest multi = new MultipartRequest(request,realPath,maxSize,encType,new DefaultFileRenamePolicy());
+
+	String bookId = multi.getParameter("bookId");
+	String name = multi.getParameter("name");
+	String unitPrice = multi.getParameter("unitPrice");
+	String author = multi.getParameter("author");
+	String description = multi.getParameter("description");
+	String publisher = multi.getParameter("publisher");
+	String category = multi.getParameter("category");
+	String unitsInStock = multi.getParameter("unitsInStock");
+	String totalPages = multi.getParameter("totalPages");
+	String condition = multi.getParameter("condition");
+	String releaseDate = multi.getParameter("releaseDate");
 	
 	Integer price;
 	
@@ -48,6 +65,10 @@
 		totalPages_long = Long.valueOf(totalPages);
 	}
 	
+	Enumeration files = multi.getFileNames();
+	String fname = (String)files.nextElement();
+	String fileName = multi.getFilesystemName(fname);
+	
 	BookRepository dao = BookRepository.getInstance();
 	
 	Book newBook = new Book();
@@ -62,6 +83,7 @@
 	newBook.setTotalPages(totalPages_long);
 	newBook.setReleaseDate(releaseDate);
 	newBook.setCondition(condition);
+	newBook.setFilename(fileName);
 	
 	dao.addBook(newBook);
 	response.sendRedirect("books.jsp");

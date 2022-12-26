@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
-  <display-name>BookMarket</display-name>
+  <display-name>KoreaIt_JSP_02</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.jsp</welcome-file>
@@ -16,7 +16,7 @@
   <security-constraint>
   	<web-resource-collection>
   		<web-resource-name>FirstAuth</web-resource-name>
-  		<url-pattern>/leeson/10_test/security01.jsp</url-pattern>
+  		<url-pattern>/05_security/login_success.jsp</url-pattern>
   		<http-method>GET</http-method>
   	</web-resource-collection>
   	<auth-constraint>
@@ -25,7 +25,15 @@
   	</auth-constraint>
   </security-constraint>
   <login-config>
-  	<auth-method>BASIC</auth-method>
+  	<!-- <auth-method>BASIC</auth-method> -->
+  	<auth-method>FORM</auth-method>
+  	<form-login-config>
+  		<form-login-page>/05_security/security02.jsp</form-login-page>
+  		<form-error-page>/05_security/login_failed.jsp</form-error-page>
+  	</form-login-config>
   </login-config>
+  
+  
+  
   
 </web-app>

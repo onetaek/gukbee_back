@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>제품추가</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="./resource/js/validation.js"></script>
 </head>
 <body>
 	<jsp:include page="menu.jsp"/>
@@ -15,7 +16,8 @@
 		</div>
 	</div>
 	<div class="container">
-		<form name="newProduct" action="./processAddProduct.jsp" class="form-horizontal" method="post">
+		<form name="newProduct" action="./processAddProduct.jsp" class="form-horizontal" method="post"
+		enctype="multipart/form-data">
 			<div class="form-group row">
 				<label class="col-sm-2">상품 코드</label>
 				<div class="col-sm-3">
@@ -65,6 +67,12 @@
 					<input type="radio" name="condition" value="New"/> 신규 제품
 					<input type="radio" name="condition" value="Old"/> 중고 제품
 					<input type="radio" name="condition" value="Refurbished"/> 재생 제품				
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2">이미지</label>
+				<div class="col-sm-5">
+					<input type="file" name="productImage" class="form-control"/>	
 				</div>
 			</div>
 			<div class="form-group row">

@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<script src="./resource/js/validation.js"></script>
+
 </head>
 <body>
 	<jsp:include page="menu.jsp"/>
@@ -16,7 +16,8 @@
 		</div>
 	</div>
 	<div class="container">
-		<form name="newProduct" action="./processAddBook.jsp" class="form-horizontal" method="post">
+		<form name="newProduct" action="./processAddBook.jsp" class="form-horizontal"  method="post"
+		enctype="multipart/form-data">
 			<div class="form-group row">
 				<label class="col-sm-2">도서 코드</label>
 				<div class="col-sm-3">
@@ -90,12 +91,21 @@
 					<input type="radio" name="condition" value="Refurbished"/> 재생 제품				
 				</div>
 			</div>
+			
+			<div class="form-group row">
+				<label class="col-sm-2">이미지</label>
+				<div class="col-sm-5">
+					<input type="file" name="bookImage" class="form-control"/>				
+				</div>
+			</div>
+			
 			<div class="form-group row">
 				<div class="col-sm-offset-2 col-sm-10">
-					<input onclick="checkAddProduct()" type="button" class="btn btn-primary" value="등록"/>				
+					<input onclick="checkAddBook()" type="button" class="btn btn-primary" value="등록"/>				
 				</div>
 			</div>
 		</form>
 	</div>
+	<script src="./resource/js/validation_book.js"></script>
 </body>
 </html>

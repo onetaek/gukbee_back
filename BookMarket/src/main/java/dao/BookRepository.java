@@ -22,7 +22,7 @@ public class BookRepository {
 		book1.setTotalPages(364);
 		book1.setReleaseDate("20221111");
 		book1.setCondition("New");
-		
+		book1.setFilename("1.jpg");
 		
 		Book book2 = new Book("B2298", "트랜드 코리아2023", 17100);
 		book2.setAuthor("김난도");
@@ -33,6 +33,7 @@ public class BookRepository {
 		book2.setTotalPages(245);
 		book2.setReleaseDate("20221005");
 		book2.setCondition("New");
+		book2.setFilename("2.jpg");
 		
 		Book book3 = new Book("B4409", "불편한 편의점", 12600);
 		book3.setAuthor("김호연");
@@ -43,6 +44,7 @@ public class BookRepository {
 		book3.setTotalPages(278);
 		book3.setReleaseDate("20210420");
 		book3.setCondition("Old");
+		book3.setFilename("3.jpg");
 		
 		listOfBooks.add(book1);
 		listOfBooks.add(book2);

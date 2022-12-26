@@ -14,6 +14,7 @@ public class Book {
 	private long totalPages;
 	private String releaseDate;
 	private String condition;
+	private String filename; //이미지 파일
 	
 	public Book() {
 		super();
@@ -24,6 +25,16 @@ public class Book {
 		this.bookId = bookId;
 		this.name = name;
 		this.unitPrice = unitPrice;
+	}
+	
+	
+	
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
 	public String getBookId() {

@@ -1,5 +1,5 @@
-function checkAddProduct(){
-
+function checkAddBook(){
+	console.log("checkAddProduct실행")
     const bookId = document.getElementById("bookId")
     const name = document.getElementById("name");
     const unitPrice = document.getElementById("unitPrice");

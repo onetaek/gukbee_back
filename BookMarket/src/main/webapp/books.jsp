@@ -29,7 +29,8 @@
 					Book book = listOfBooks.get(i);
 			%>
 			<div class="col-md-12">
-				<img src="./img/<%=i+1%>.jpg" width="200"/>
+				<img class="my_img" src="${pageContext.request.contextPath }/resources/images/<%=book.getFilename()%>
+				"style="width:300px";/>
 				<h3 class="text-left"><a href="./book.jsp?id=<%=book.getBookId()%>">[<%=book.getCategory() %>] <%=book.getName() %></a></h3>
 				<p class="text-left"><%=book.getDescription() %></p>
 				<p class="text-left"><%=book.getAuthor() %> | <%=book.getPublisher() %> | <%=book.getUnitPrice() %></p>
