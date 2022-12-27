@@ -33,6 +33,17 @@
   	</form-login-config>
   </login-config>
   
+  <error-page>
+  	<error-code>500</error-code>
+  	<location>/06_error/errorCode500.jsp</location>
+  </error-page>
+  
+  <error-page>
+  	<exception-type>java.lang.Exception</exception-type>
+  	<location>/06_error/exceptionType_error.jsp</location>
+  </error-page>
+  
+  
   
   
   

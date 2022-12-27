@@ -16,6 +16,9 @@
 		</div>
 	</div>
 	<div class="container">
+		<div class="text-right">
+			<a href="logout.jsp" class="btn btn-sm btn-success pull-right">logout</a>
+		</div>
 		<form name="newProduct" action="./processAddProduct.jsp" class="form-horizontal" method="post"
 		enctype="multipart/form-data">
 			<div class="form-group row">
