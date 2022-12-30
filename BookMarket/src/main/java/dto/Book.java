@@ -15,6 +15,7 @@ public class Book {
 	private String releaseDate;
 	private String condition;
 	private String filename; //이미지 파일
+	private int quantity;
 	
 	public Book() {
 		super();
@@ -123,6 +124,14 @@ public class Book {
 
 	public void setCondition(String condition) {
 		this.condition = condition;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	
