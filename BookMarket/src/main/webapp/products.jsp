@@ -26,20 +26,24 @@
 	%>
 	<div class="container">
 		<div class="row" align="center">
+		<%@ include file="dbconn.jsp" %>
 			<%
-				for(int i = 0 ; i < listOfProducts.size();i++){
-					Product product = listOfProducts.get(i);
+				String sql = "select * from product";
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				while(rs.next()){
 			%>
 			<div class="col-md-4">
-				<img class="my_img" src="${pageContext.request.contextPath }/resources/images/<%=product.getFilename()%>
-				" style="width:100%";/>
-				<h3><a href="./product.jsp?id=<%=product.getProductId() %>"><%=product.getPname() %></a></h3>
-				<p><%=product.getDescription() %></p>
-				<p><%=product.getUnitPrice() %></p>
-				<p><a href=""></a></p>
+				<img class="my_img" src="c:upload/<%=rs.getString("p_fileName")%>" style="width:100%;"/>
+				<h3><a href="./product.jsp?id=<%=rs.getString("p_name") %>"><%=rs.getString("p_name") %></a></h3>
+				<p><%=rs.getString("p_description") %></p>
+				<p><%=rs.getString("p_UnitPrice") %></p>
+				<p><a href="./product.jsp?id=<%=rs.getString("p_id")%>" 
+					class="btn btn-secondary" role="button"> 상세 정보 &raquo;</a></p>
 			</div>
 			<%
 				}
+			
 			%>
 		</div>
 		<hr>
