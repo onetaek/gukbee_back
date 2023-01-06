@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
-	<!--<jsp:include page="menu.jsp"/>-->
+	<jsp:include page="menu.jsp"/>
 	<div class="jumbotron">
 		<div class="container">
 			<h1 class="display-3">상품목록</h1>
@@ -34,8 +34,8 @@
 				while(rs.next()){
 			%>
 			<div class="col-md-4">
-				<img class="my_img" src="c:upload/<%=rs.getString("p_fileName")%>" style="width:100%;"/>
-				<h3><a href="./product.jsp?id=<%=rs.getString("p_name") %>"><%=rs.getString("p_name") %></a></h3>
+				<img class="my_img" src="${pageContext.request.contextPath }/resources/images/<%=rs.getString("p_fileName")%>" style="width:100%;"/>
+				<h3><a href="./product.jsp?id=<%=rs.getString("p_id") %>"><%=rs.getString("p_name") %></a></h3>
 				<p><%=rs.getString("p_description") %></p>
 				<p><%=rs.getString("p_UnitPrice") %></p>
 				<p><a href="./product.jsp?id=<%=rs.getString("p_id")%>" 
@@ -43,7 +43,6 @@
 			</div>
 			<%
 				}
-			
 			%>
 		</div>
 		<hr>

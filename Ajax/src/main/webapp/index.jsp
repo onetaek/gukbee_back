@@ -12,11 +12,14 @@
 	let searchRequest = new XMLHttpRequest();
 	let registerRequest = new XMLHttpRequest();
 	function searchFunction() {
+		console.log(searchRequest);
 		searchRequest.open("POST", "./UserSearchServlet?userName="
 				+ encodeURIComponent(document.getElementById("userName").value,
 						true));
 		searchRequest.onreadystatechange = searchProcess;
+		console.log(searchRequest);
 		searchRequest.send(null);
+		console.log(searchRequest);
 	}
 
 	function searchProcess() {
@@ -63,6 +66,7 @@
 	}
 	
 	window.onload = function() {
+		console.log("window onload시 searchFunction 실행");
 		searchFunction();
 	}
 </script>

@@ -4,8 +4,11 @@
 <%@page import="java.io.File"%>
 <%@page import="dao.ProductRepository"%>
 <%@page import="dto.Product"%>
+<%@page import="java.sql.*" %>
+<%@include file="dbconn.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,16 +41,6 @@
 	String unitsInStock = multi.getParameter("unitsInStock");
 	String condition = multi.getParameter("condition");
 	
-	/*
-	String productId = request.getParameter("productId");
-	String name = request.getParameter("name");
-	String unitPrice = request.getParameter("unitPrice");
-	String description = request.getParameter("description");
-	String manufacturer = request.getParameter("manufacturer");
-	String category = request.getParameter("categary");
-	String unitsInStock = request.getParameter("unitsInStock");
-	String condition = request.getParameter("condition");
-	*/
 	
 	Integer price;
 	
@@ -69,20 +62,24 @@
 	String fname = (String)files.nextElement();
 	String fileName = multi.getFilesystemName(fname);
 	
-	ProductRepository dao = ProductRepository.getInstance();
+	String sql = "insert into product values(?,?,?,?,?,?,?,?,?)";
+	pstmt = conn.prepareStatement(sql);
+	pstmt.setString(1,productId);
+	pstmt.setString(2,name);
+	pstmt.setInt(3,price);
+	pstmt.setString(4,description);
+	pstmt.setString(5,category);
+	pstmt.setString(6,manufacturer);
+	pstmt.setLong(7,stock);
+	pstmt.setString(8,condition);
+	pstmt.setString(9,filename);
+	pstmt.executeUpdate();
 	
-	Product newProduct = new Product();
-	newProduct.setProductId(productId);
-	newProduct.setPname(name);
-	newProduct.setUnitPrice(price);
-	newProduct.setDescription(description);
-	newProduct.setManufacturer(manufacturer);
-	newProduct.setCategory(category);
-	newProduct.setUnitsInStock(stock);
-	newProduct.setCondition(condition);
-	newProduct.setFilename(fileName);
+	if(pstmt != null)
+		pstmt.close();
+	if(conn != null)
+		conn.close();
 	
-	dao.addProduct(newProduct);
 	
 	response.sendRedirect("products.jsp");
 	%>
