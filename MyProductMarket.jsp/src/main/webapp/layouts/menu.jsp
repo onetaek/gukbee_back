@@ -25,7 +25,8 @@
 					<li class="nav-item"><a class="nav-link" href="../shop_db/products.jsp">상품 목록</a></li>
 					<!-- <li class="nav-item"><a class="nav-link" href="../product/addProduct.jsp">상품 등록</a></li> -->
 					<li class="nav-item"><a class="nav-link" href="../shop_db/cart.jsp">장바구니</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">게시판</a></li>
+					<li class="nav-item"><a class="nav-link" href="../board/BoardListAction.do?pageNum=1">게시판</a></li>
+					
 				</ul>
 			</div>
         </div>

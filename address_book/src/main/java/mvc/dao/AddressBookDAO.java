@@ -178,8 +178,6 @@ public class AddressBookDAO {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
-		
 		return dtos;
 	}
 	

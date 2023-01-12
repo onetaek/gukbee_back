@@ -18,7 +18,7 @@
 		</web-resource-collection> <auth-constraint> <description></description> 
 		<role-name>role1</role-name> </auth-constraint> </security-constraint> <login-config> 
 		<auth-method>BASIC</auth-method> </login-config> -->
-	
+
 	<security-role>
 		<description></description>
 		<role-name>admin</role-name>
@@ -42,11 +42,34 @@
 			<form-error-page>/login/loginFailed.jsp</form-error-page>
 		</form-login-config>
 	</login-config>
-	
+
 	<error-page>
 		<error-code>404</error-code>
 		<location>/error/exceptionNoPage.jsp</location>
 	</error-page>
-	
-	
+
+
+
+
+
+
+	<servlet>
+		<servlet-name>BoardController</servlet-name>
+		<servlet-class>mvc.controller.BoardController</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>BoardController</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+
+
+
+
+
+
+
+
+
+
 </web-app>
