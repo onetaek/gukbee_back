@@ -56,7 +56,7 @@
 				<label class="col-sm-2 control-label">내용</label>
 				<div class="col-sm-8">
 					<textarea name="content" cols="50" rows="5" class="form-control"
-					placeholder="content"></textarea>
+					placeholder="내용을 입력해주세요"></textarea>
 				</div>
 			</div>
 

@@ -11,7 +11,7 @@
 	<div class="container pt-3 bg-dark-subtle" style="width:600px;">
 		<h2 class="text-center">주소록: 작성화면</h2>
 		<hr>
-		<a class="btn btn-primary mb-3" href="./address_book_control.jsp?action=list">주소록 목록으로</a><br>
+		<a class="btn btn-primary mb-3" href="./address_book_control.do?action=list">주소록 목록으로</a><br>
 		<form name="frmInsert" method="post" action="./address_book_control.jsp">
 		<input type="hidden" name="action" value="insert"/>
 		<table class="table table-dark table-striped">
