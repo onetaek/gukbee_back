@@ -14,8 +14,8 @@ public class UserDAO {
 	public UserDAO() {
 		try {
 			String dbID = "root";
-		    String dbPassword = "7157";
-		    String dbURL = "jdbc:mariadb://127.0.0.1:3310/ajax_db";
+		    String dbPassword = "dpdlvldzm419!";
+		    String dbURL = "jdbc:mariadb://127.0.0.1:3306/ajax_db";
 		    Class.forName("org.mariadb.jdbc.Driver");
 		    conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
 		    System.out.println("연결성공");
