@@ -38,7 +38,8 @@ public class BoardController extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/board/list.jsp");
 			rd.forward(request, response);
 		}else if(command.contains("/BoardWriteForm.do")) {
-			requestLoginName(request);
+			
+			//requestLoginName(request);
 			RequestDispatcher rd = request.getRequestDispatcher("/board/writeForm.jsp");
 			rd.forward(request, response);
 		}else if(command.contains("/BoardWriteAction.do")) {
@@ -101,6 +102,7 @@ public class BoardController extends HttpServlet {
 			total_page = total_page + 1;
 		}
 		
+		request.setAttribute("limit", limit);
 		request.setAttribute("pageNum", pageNum);//페이지 번호.
 		request.setAttribute("total_page",total_page);//전체 페이지 수.
 		request.setAttribute("total_record", total_record);// 전체 게시물 수.
@@ -108,16 +110,16 @@ public class BoardController extends HttpServlet {
 	}
 	
 	
-	private void requestLoginName(HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		String id = request.getParameter("id");
-		System.out.println("controller의 id: "+id);
-		BoardDAO dao = BoardDAO.getInstance();
-		String name = dao.getLoginNameById(id);
-		System.out.println("name: "+name);
-		request.setAttribute("name", name);
-	}
-	
+//	private void requestLoginName(HttpServletRequest request) {
+//		// TODO Auto-generated method stub
+//		String id = request.getParameter("id");
+//		System.out.println("controller의 id: "+id);
+//		BoardDAO dao = BoardDAO.getInstance();
+//		String name = dao.getLoginNameById(id);
+//		System.out.println("name: "+name);
+//		request.setAttribute("name", name);
+//	}
+//	
 	
 	private void requestBoardWrite(HttpServletRequest request) {
 		

@@ -7,7 +7,8 @@
 	List boardList = (List) request.getAttribute("boardlist");
 	int total_record = ((Integer) request.getAttribute("total_record")).intValue();
 	int pageNum = ((Integer) request.getAttribute("pageNum")).intValue();
-	int total_page = ((Integer) request.getAttribute("total_page")).intValue();
+	int totalPage = ((Integer) request.getAttribute("total_page")).intValue();
+	int limit = ((Integer) request.getAttribute("limit")).intValue();
 %>
 <html>
 <head>
@@ -47,37 +48,72 @@
 						<th>글쓴이</th>
 					</tr>
 					<%
+						int serialNumber = total_record - ((pageNum - 1) * limit);// 게시글 일련 번호 
+					
 						for (int j = 0; j < boardList.size(); j++) {
 							BoardDTO notice = (BoardDTO) boardList.get(j);
 					%>
 					<tr>
-						<td><%=notice.getNum()%></td>
+						<td><%=serialNumber--%></td>
 						<td><a href="./BoardViewAction.do?num=<%=notice.getNum()%>&pageNum=<%=pageNum%>"><%=notice.getSubject()%></a></td>
 						<td><%=notice.getRegistDay()%></td>
 						<td><%=notice.getHit()%></td>
 						<td><%=notice.getName()%></td>
 					</tr>
-					<%
+					<%	
 						}
 					%>
 				</table>
 			</div>
 			<div align="center">
+			<%
+				int pagePerBlock = 5;
+				int totalBlock = totalPage % pagePerBlock == 0 ? totalPage / pagePerBlock : totalPage / pagePerBlock + 1;
+				int thisBlock = ((pageNum - 1) / pagePerBlock) + 1;
+				int firstPage = ((thisBlock - 1) * pagePerBlock) + 1;
+				int lastPage = thisBlock * pagePerBlock;
+				lastPage = (lastPage > totalPage) ? totalPage : lastPage;
+				
+				out.println("totalPage :" + totalPage );
+				out.println("totalBlock :" + totalBlock );
+				out.println("thisBlock :" + thisBlock );
+				out.println("firstPage :" + firstPage );
+				out.println("lastPage :" + lastPage );
+			%>
+				<br>
+				<c:set var="pagePerBlock" value="<%=pagePerBlock%>" />
+				<c:set var="totalBlock" value="<%=totalBlock%>" />
+				<c:set var="thisBlock" value="<%=thisBlock%>" />
+				<c:set var="firstPage" value="<%=firstPage%>" />
+				<c:set var="lastPage" value="<%=lastPage%>" />
+				<c:set var="totalPage" value="<%=totalPage %>"/>
+				
 				<c:set var="pageNum" value="<%=pageNum%>" />
-				<c:forEach var="i" begin="1" end="<%=total_page%>">
-					<a href="<c:url value="./BoardListAction.do?pageNum=${i}" /> ">
+				<a href="<c:url value="./BoardListAction.do?pageNum=1"/>" style="color:red;">[쩰 앞]</a>
+				<c:if test="${thisBlock > 1 }" >
+					<a href="<c:url value="./BoardListAction.do?pageNum=${firstPage - 1 }"/>">[이전]</a>
+				</c:if>
+				<c:forEach var="i" begin="<%=firstPage %>" end="${lastPage }">
 						<c:choose>
 							<c:when test="${pageNum==i}">
-								<font color='4C5317'><b> [${i}]</b></font>
+								<a href="<c:url value="./BoardListAction.do?pageNum=${i}"/>">
+									<span style="color:#4C5317;font-weight:bold;">[${i}]</span>
+								</a>
 							</c:when>
 							<c:otherwise>
-								<font color='4C5317'> [${i}]</font>
-
+								<a href="<c:url value="./BoardListAction.do?pageNum=${i}"/>">
+									<span style="color:#4C5317;">[${i}]</span>
+								</a>
 							</c:otherwise>
 						</c:choose>
-					</a>
 				</c:forEach>
+				<c:if test="${thisBlock < totalBlock }" >
+					<a href="<c:url value="./BoardListAction.do?pageNum=${lastPage + 1 }"/>">[다음]</a>
+				</c:if>
+				<a href="<c:url value="./BoardListAction.do?pageNum=${totalPage }"/>" style="color:red;" >[쩰 끝]</a>
 			</div>
+			
+			
 			<div align="left">
 				<table>
 					<tr>

@@ -38,10 +38,10 @@
 			<input type="hidden" name="id" class="form-control"
 				value="${sessonId }" />
 			<div class="form-group row">
-				<label class="col-sm-2 control-label">성명</label>
+				<label class="col-sm-2 control-label">${sessionName }</label>
 				<div class="col-sm-3">
 					<input name="name" type="text" class="form-control"
-						value="${name }" placeholder="name" />
+						value="${sessionName }" placeholder="name" />
 				</div>
 			</div>
 			<div class="form-group row">
