@@ -1,3 +1,4 @@
+<%@page import="t_dao.CartDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -8,7 +9,11 @@
 </head>
 <body>
 <%
-	session.invalidate();
+	String orderNo = session.getId();
+	CartDAO cartDAO = new CartDAO();
+	cartDAO.deleteCart(orderNo);
+
+
 	response.sendRedirect("cart.jsp");
 %>
 </body>

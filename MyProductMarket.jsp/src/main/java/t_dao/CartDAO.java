@@ -15,11 +15,11 @@ public class CartDAO {
 	private Connection connection = null;
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
-	
+
 	public CartDAO() {
 		connect();
 	}
-	
+
 	private void connect() {
 		try {
 			connection = DBConnection.getConnection();
@@ -28,11 +28,11 @@ public class CartDAO {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public boolean updateCart(Product product, String orderNo, String memberId) {
 		int flag = 0;
 		String productId = product.getProductId();
-		System.out.println("productDTO에서 받은 productId: "+productId);
+		System.out.println("productDTO에서 받은 productId: " + productId);
 		try {
 			String sql = "select * from cart where orderNo = ? and productId = ?";
 			preparedStatement = connection.prepareStatement(sql);
@@ -41,15 +41,14 @@ public class CartDAO {
 			System.out.println("111");
 			resultSet = preparedStatement.executeQuery();
 			System.out.println("222");
-			if(resultSet.next()) {
+			if (resultSet.next()) {
 				int cartId = resultSet.getInt("cartId");
 				sql = "update cart set cnt = cnt + 1 where cartId = ?";
 				preparedStatement = connection.prepareStatement(sql);
 				preparedStatement.setInt(1, cartId);
 				flag = preparedStatement.executeUpdate();
-			}else {
-				sql = "insert into cart (cartId, memberId, orderNo, productId, "
-						+ "name, unitPrice, cnt, InsertDate)"
+			} else {
+				sql = "insert into cart (cartId, memberId, orderNo, productId, " + "name, unitPrice, cnt, InsertDate)"
 						+ " values(null,?,?,?,?,?,?,now())";
 				preparedStatement = connection.prepareStatement(sql);
 				preparedStatement.setString(1, memberId);
@@ -66,17 +65,32 @@ public class CartDAO {
 		}
 		return flag == 1;
 	}
-	
-	
-	public ArrayList<Cart> getAllCart(String orderNo){
-		ArrayList<Cart> carts = new ArrayList<>();
+
+	public boolean deleteCart(String orderNo) {
+		// 장바구니 전체삭제
+		int flag = 0;
 		
+		String sql = "DELETE FROM cart WHERE orderNo =?";
+		try {
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, orderNo);
+			flag = preparedStatement.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}		
+		return flag != 0;
+	}
+
+	public ArrayList<Cart> getAllCart(String orderNo) {
+		ArrayList<Cart> carts = new ArrayList<>();
+
 		String sql = "select * from cart where orderNo = ?";
 		try {
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, orderNo);
 			resultSet = preparedStatement.executeQuery();
-			while(resultSet.next()) {
+			while (resultSet.next()) {
 				Cart cart = new Cart();
 				cart.setCartId(resultSet.getInt(1));
 				cart.setMemberId(resultSet.getString(2));
@@ -92,27 +106,28 @@ public class CartDAO {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return carts;	
+		return carts;
 	}
-	
+
 	public boolean updateCartByLogin(HttpSession session) {
 		int flag = 0;
 		String orderNo = session.getId();
-		String id = (String)session.getAttribute("sessionId");
-		//이전 로그인에 담은 상품 업데이트
-		String sql = "update cart set orderNo = ? where id = ?";
+		System.out.println("orderNo = " + orderNo);
+		String id = (String) session.getAttribute("sessionId");
+		// 이전 로그인에 담은 상품 업데이트
+		String sql = "update cart set orderNo = ? where memberId = ?";
 		try {
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, orderNo);
 			preparedStatement.setString(2, id);
 			flag = preparedStatement.executeUpdate();
-			
-			//로그인 전에 담은 상품 업데이트
-			sql = "update cart set id = ? where orderNo = ?";
+
+			// 로그인 전에 담은 상품 업데이트
+			sql = "update cart set memberId = ? where orderNo = ?";
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, id);
-			preparedStatement.setString(2,orderNo);
-			flag = preparedStatement.executeUpdate();	
+			preparedStatement.setString(2, orderNo);
+			flag = preparedStatement.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -120,6 +135,5 @@ public class CartDAO {
 		return flag != 0;
 
 	}
-	
-	
+
 }

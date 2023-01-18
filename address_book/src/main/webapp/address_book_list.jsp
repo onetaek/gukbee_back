@@ -16,7 +16,7 @@
 <script type="text/javascript">
 	function check(ID) {
 		pwd = prompt('수정/삭제 하려면 비밀번호를 넣으세요');
-		document.location.href = "address_book_control.jsp?action=edit&id="
+		document.location.href = "address_book_control.do?action=edit&id="
 				+ ID + "&passwd=" + pwd;
 	}
 </script>

@@ -38,17 +38,38 @@ public class BoardController extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/board/list.jsp");
 			rd.forward(request, response);
 		}else if(command.contains("/BoardWriteForm.do")) {
-			requestLoginName(request);
+			
+			//requestLoginName(request);
 			RequestDispatcher rd = request.getRequestDispatcher("/board/writeForm.jsp");
 			rd.forward(request, response);
 		}else if(command.contains("/BoardWriteAction.do")) {
 			requestBoardWrite(request);
 			RequestDispatcher rd = request.getRequestDispatcher("/board/BoardListAction.do");
 			rd.forward(request, response);
+		}else if(command.contains("/BoardViewAction.do")) {
+			requestBoardView(request);
+			RequestDispatcher rd = request.getRequestDispatcher("/board/BoardView.do");
+			rd.forward(request, response);
+		}else if(command.contains("/BoardView.do")) {
+			RequestDispatcher rd = request.getRequestDispatcher("/board/view.jsp");
+			rd.forward(request, response);
+		}else if(command.contains("/BoardUpdateView.do")) {
+			requestBoardUpdateView(request);
+			RequestDispatcher rd = request.getRequestDispatcher("/board/updateView.jsp");
+			rd.forward(request, response);
+		}else if(command.contains("/BoardUpdateAction.do")) {
+			requestBoardUpdate(request);
+			RequestDispatcher rd = request.getRequestDispatcher("/board/BoardListAction.do");
+			rd.forward(request, response);
+		}else if(command.contains("/BoardDeleteAction.do")) {
+			requestBoardDelete(request);
+			RequestDispatcher rd = request.getRequestDispatcher("/board/BoardListAction.do");
+			rd.forward(request, response);
 		}
 	}
 
 	
+
 
 
 	private void requestBoardList(HttpServletRequest request) {
@@ -63,10 +84,11 @@ public class BoardController extends HttpServlet {
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
 		}
 		
-		String items = request.getParameter("item"); //검색 필드
+		String items = request.getParameter("items"); //검색 필드
 		String text = request.getParameter("text"); // 검색어
 		
 		int total_record = dao.getListCount(items,text);
+		System.out.println("total_record!!!!"+total_record);
 		boardlist = dao.getBoardList(pageNum,limit,items,text);
 		
 		int total_page;//전체페이지
@@ -80,6 +102,7 @@ public class BoardController extends HttpServlet {
 			total_page = total_page + 1;
 		}
 		
+		request.setAttribute("limit", limit);
 		request.setAttribute("pageNum", pageNum);//페이지 번호.
 		request.setAttribute("total_page",total_page);//전체 페이지 수.
 		request.setAttribute("total_record", total_record);// 전체 게시물 수.
@@ -87,16 +110,16 @@ public class BoardController extends HttpServlet {
 	}
 	
 	
-	private void requestLoginName(HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		String id = request.getParameter("id");
-		System.out.println("controller의 id: "+id);
-		BoardDAO dao = BoardDAO.getInstance();
-		String name = dao.getLoginNameById(id);
-		System.out.println("name: "+name);
-		request.setAttribute("name", name);
-	}
-	
+//	private void requestLoginName(HttpServletRequest request) {
+//		// TODO Auto-generated method stub
+//		String id = request.getParameter("id");
+//		System.out.println("controller의 id: "+id);
+//		BoardDAO dao = BoardDAO.getInstance();
+//		String name = dao.getLoginNameById(id);
+//		System.out.println("name: "+name);
+//		request.setAttribute("name", name);
+//	}
+//	
 	
 	private void requestBoardWrite(HttpServletRequest request) {
 		
@@ -110,5 +133,59 @@ public class BoardController extends HttpServlet {
 		board.setIp(request.getRemoteAddr());
 		dao.insertBoard(board);
 	}
+	
+	
+
+	private void requestBoardView(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		BoardDAO dao = BoardDAO.getInstance();
+		int num = Integer.parseInt(request.getParameter("num"));
+		int pageNum = Integer.parseInt(request.getParameter("pageNum"));
+		
+		BoardDTO board = dao.getBoardByNum(num);
+		System.out.println("board: "+board.getRegistDay());
+		request.setAttribute("num", num);
+		request.setAttribute("page", pageNum);
+		request.setAttribute("board", board);
+	}
+	private void requestBoardUpdateView(HttpServletRequest request) {
+		int num = Integer.parseInt(request.getParameter("num"));
+		int pageNum = Integer.parseInt(request.getParameter("pageNum"));
+		
+		BoardDAO dao = BoardDAO.getInstance();
+		BoardDTO board = dao.getBoardByNum(num);
+		
+		request.setAttribute("num", num);
+		request.setAttribute("page", pageNum);
+		request.setAttribute("board", board);
+	}
+	
+	private void requestBoardUpdate(HttpServletRequest request) {
+		BoardDAO dao = BoardDAO.getInstance();
+		int num = Integer.parseInt(request.getParameter("num"));
+		int pageNum = Integer.parseInt(request.getParameter("pageNum"));
+		String name = request.getParameter("name");
+		String subject = request.getParameter("subject");
+		String content = request.getParameter("content");
+		
+		dao.boardUpdate(num,name,subject,content);
+		
+		request.setAttribute("num", num);
+		request.setAttribute("page", pageNum);
+	}
+	
+	private void requestBoardDelete(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		BoardDAO dao = BoardDAO.getInstance();
+		int num = Integer.parseInt(request.getParameter("num"));
+		int pageNum = Integer.parseInt(request.getParameter("pageNum"));
+		
+		dao.boardDelete(num);
+		
+		
+		request.setAttribute("num", num);
+		request.setAttribute("page", pageNum);
+	}
+
 
 }

@@ -33,11 +33,19 @@
 	</div>
 
 	<div class="container">
-		<form name="newMember" class="form-horizontal"  action="./processAddMember.jsp" method="post" onsubmit="return checkForm()">
+		<form name="frmMemberInsert" class="form-horizontal"  action="./processAddMember.jsp" method="post" onsubmit="return checkForm()">
 			<div class="form-group  row">
 				<label class="col-sm-2 ">아이디</label>
 				<div class="col-sm-3">
 					<input name="id" type="text" class="form-control" placeholder="id" >
+
+
+					<!--ajax 기능 추가-->
+					<span class="idCheck"></span><br>
+					<input type="button" name="btnIsDuplication" value="팝업 아이디 중복 확인"><br>
+					<input type="button" name="btnIsDuplication2nd" value="ajax 아이디 중복 확인">
+
+
 				</div>
 			</div>
 			<div class="form-group  row">
@@ -119,7 +127,94 @@
 				</div>
 			</div>
 		</form>
+		<!-- 
+		<iframe src="http://www.naver.com/" width="600" height="300"></iframe>
+		<iframe src="https://www.daum.net/" width="600" height="300"></iframe>
+		<iframe width="1280" height="720" src="https://www.youtube.com/embed/RIWRyggt-QY?list=RDRIWRyggt-QY" title="[MV] APRIL(에이프릴) _ April Story(봄의 나라 이야기 )" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+		 -->
 	</div>
 	<jsp:include page="../layouts/footer.jsp" />
+
+	<!--ajax기능추가-->
+	<script>
+		//const inputID = document.querySelector('input[name=id]');
+		const frmMemberInsert = document.frmMemberInsert;// 폼을 들고 옴.
+		
+		//----------------1.팝업을 이용한 Id 중복확인-----------------
+		//팝업을 띄우는 이유는, 현재 페이지에서 데이터베이스에 중복 조회를 알려면 페이지 새로고침 이외에는 방법이 없음
+		const btnIsDuplication = document.querySelector('input[name=btnIsDuplication]');
+		btnIsDuplication.addEventListener('click', function() {
+			console.log("btnIsDuplication 클릭! ");
+			const id = frmMemberInsert.id.value;
+			if(id==""){
+				alert('아이디를 입력해 주세요.');
+				frmMemberInsert.id.focus();
+				return;
+			}
+			//아이디 중복 확인을 위해 팝업을 띄움.
+			window.open('popupIdCheck.jsp?id='+id,'IdCheck','width=500,height=500,top=100,left=200,location = no');
+		});
+		
+		//-------------- 2. ajax를 이용한 Id 중복확인----------------
+		const xhr = new XMLHttpRequest();//XMLHttpRequext객체 생성
+		const btnIsDuplication2nd = document.querySelector('input[name=btnIsDuplication2nd]');
+		btnIsDuplication2nd.addEventListener("click",function(){
+			const id = frmMemberInsert.id.value; // 아이디 input 에 있는 값
+			xhr.open('GET','ajaxIdCheck.jsp?id='+id);//HTTP요청 초기화. 통신 방식과 url설정.
+			xhr.send()//url에 요청을 보냄.
+			//이벤트 증록. XMLHttpRequest객체의 readyState 프로퍼티 값이 변할 때마다 자동으로 호출
+			xhr.onreadystatechange = () =>{
+				//readyState  프로퍼티 값이 DONE: 요청한 데이터의 처리가 환요되어 응답할 준비가 와료되
+				if(xhr.readyState !== XMLHttpRequest.DONE)return;
+
+				if(xhr.status === 200){//서버(url)에 문서가 존재함
+					console.log(xhr.response);
+					const obj = JSON.parse(xhr.response);
+					if(obj.result === 'true'){
+						alert('동일한 아이디가 있습니다.');
+					}else{
+						alert('동일한 아이디가 없습니다.');
+					}
+				}else{
+					console.error('Error',xhr.status, xhr.statusText);
+				}
+			}
+		});
+		
+		//-------------- 3. ajax를 이용한 Id 중복확인----------------
+		const inputId = document.querySelector('input[name=id]');
+		inputId.addEventListener("keyup",function(){
+			const id = frmMemberInsert.id.value; // 아이디 input 에 있는 값
+			const idCheck = document.querySelector('.idCheck');
+			xhr.open('GET','ajaxIdCheck.jsp?id='+id);//HTTP요청 초기화. 통신 방식과 url설정.
+			xhr.send()//url에 요청을 보냄.
+			//이벤트 증록. XMLHttpRequest객체의 readyState 프로퍼티 값이 변할 때마다 자동으로 호출
+			xhr.onreadystatechange = () =>{
+				//readyState  프로퍼티 값이 DONE: 요청한 데이터의 처리가 환요되어 응답할 준비가 와료되
+				if(xhr.readyState !== XMLHttpRequest.DONE)return;
+				if(xhr.status === 200){//서버(url)에 문서가 존재함
+					console.log(xhr.response);
+					const obj = JSON.parse(xhr.response);
+					if(obj.result === 'true'){
+						idCheck.style.color = 'green';
+						idCheck.innerHTML = '동일한 아이디가 있습니다.';
+					}else{
+						idCheck.style.color = 'red';
+						idCheck.innerHTML = '동일한 아이디가 없습니다.';
+					}
+				}else{
+					console.error('Error',xhr.status, xhr.statusText);
+				}
+			}
+		});
+		inputId.addEventListener('blur',function(){
+			console.log('iuputId bluer');
+			if(inputId.value === "" && inputId.value == null){
+				const idCheck = document.querySelector('.idCheck');
+				idCheck.innerHTML = "";
+			}
+
+		})
+	</script>
 </body>
 </html>
