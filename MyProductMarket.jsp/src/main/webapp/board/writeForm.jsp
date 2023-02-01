@@ -34,9 +34,10 @@
 
 	<div class="container">
 		<form name="newWrite" action="./BoardWriteAction.do"
+			enctype="multipart/form-data" 
 			class="form-horizontal" method="post" onsubmit="return checkForm()">
-			<input type="hidden" name="id" class="form-control"
-				value="${sessonId }" />
+			<input type="hidden" name="id" class="form-control" value="${sessionId }" />
+				<div>${sessionId }</div>
 			<div class="form-group row">
 				<label class="col-sm-2 control-label">${sessionName }</label>
 				<div class="col-sm-3">
@@ -59,7 +60,14 @@
 					placeholder="내용을 입력해주세요"></textarea>
 				</div>
 			</div>
-
+			
+			<div class="form-group row">
+				<label class="col-sm-2 control-label">이미지</label>
+				<div class="col-sm-8">
+					<input type="file" name="productImage" class="form-control"/>
+				</div>
+			</div>
+			
 			<div class="form-group row">
 				<div class="col-sm-offset-2 col-sm-10">
 					<input type="submit" class="btn btn-primary" value="등록" /> <input

@@ -9,7 +9,9 @@ public class BoardDTO {
 	private String registDay;
 	private int hit;
 	private String ip;
-
+	private String filename;
+	private Long filesize;
+	
 	public BoardDTO() {}
 	
 	public BoardDTO(int num, String id, String name, String subject, String content, String registDay, int hit,
@@ -73,6 +75,24 @@ public class BoardDTO {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	public Long getFilesize() {
+		return filesize;
+	}
+
+	public void setFilesize(Long filesize) {
+		this.filesize = filesize;
+	}
+	
+	
 	
 	
 }

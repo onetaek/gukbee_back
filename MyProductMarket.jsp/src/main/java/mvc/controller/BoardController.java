@@ -1,7 +1,9 @@
 package mvc.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,6 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.fileupload.DiskFileUpload;
+import org.apache.commons.fileupload.FileItem;
 
 import mvc.model.BoardDAO;
 import mvc.model.BoardDTO;
@@ -47,7 +52,13 @@ public class BoardController extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/board/writeForm.jsp");
 			rd.forward(request, response);
 		} else if (command.contains("/BoardWriteAction.do")) {
-			requestBoardWrite(request);
+			try {
+				requestBoardWrite(request);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				System.out.println("BoardWriteAction.do Error");
+				e.printStackTrace();
+			}
 			RequestDispatcher rd = request.getRequestDispatcher("/board/BoardListAction.do");
 			rd.forward(request, response);
 		} else if (command.contains("BoardViewAction.do")) {
@@ -180,16 +191,72 @@ public class BoardController extends HttpServlet {
 //	}
 //	
 
-	private void requestBoardWrite(HttpServletRequest request) {
-
+	private void requestBoardWrite(HttpServletRequest request) throws Exception {
+		System.out.println("requestBoardWrite 메서드 진입");
 		BoardDAO dao = BoardDAO.getInstance();
 		BoardDTO board = new BoardDTO();
-		board.setId(request.getParameter("id"));
-		board.setName(request.getParameter("name"));
-		board.setSubject(request.getParameter("subject"));
-		board.setContent(request.getParameter("content"));
-
+		System.out.println("requestBoardWrite메서드에서 받은 Id: "+request.getParameter("id"));
+		String sessionId = (String)request.getSession().getAttribute("sessionId");
+		System.out.println("sessionId: "+sessionId);
+		board.setId(sessionId);
 		board.setIp(request.getRemoteAddr());
+		
+		String path = "C:\\upload";
+
+		// 파일 업로드를 위해 DiskFileUpload 클래스를 생성.
+		DiskFileUpload upload = new DiskFileUpload();
+
+		// 업로드할 파일의 최대 크기, 메모리상에 저장할 최대 크기, 업로드된 파일을 임시로 저장할 경로를 작성.
+		upload.setSizeMax(1000000);
+		upload.setSizeThreshold(4096);
+		upload.setRepositoryPath(path); 
+
+		// 폼 페이지에서 전송된 요청 파라미터를 전달받도록 DiskFileUpload 객체 타입의 parseRequest() 메서드를 작성.
+		List items = upload.parseRequest(request);
+
+		// 폼 페이지에서 전송된 요청 파라미터를 Iterator 클래스로 변환.
+		Iterator params = items.iterator();
+
+		while (params.hasNext()) { // 폼 페이지에서 전송된 요청 파라미터가 없을 때까지 반복하도록 Iterator 객체 타입의 hasNext() 메서드를 작성.
+			// 폼 페이지에서 전송된 요청 파라미터의 이름을 가져오도록 Iterator 객체 타입의 next() 메서드를 작성.
+			FileItem item = (FileItem) params.next();
+
+			if (item.isFormField()) {
+				// 폼 페이지에서 전송된 요청 파라미터가 일반 데이터이면 요청 파라미터의 이름과 값을 출력.
+				String name = item.getFieldName();
+				String value = item.getString("utf-8");
+				switch(name) {
+				case "name":
+					board.setName(request.getParameter("name"));
+				case "subject":
+					board.setSubject(request.getParameter("subject"));
+				case "content":
+					board.setContent(request.getParameter("content"));
+				}
+				System.out.println(name + "=" + value);
+			}
+			else {
+				// 폼 페이지에서 전송된 요청 파라미터가 파일이면
+				// 요청 파라미터의 이름, 저장 파일의 이름, 파일 컨텐트 유형, 파일 크기에 대한 정보를 출력.
+				String fileFieldName  = item.getFieldName();				
+				String fileName = item.getName();
+				String contentType = item.getContentType();
+				
+				if(!fileName.isEmpty()) {
+					System.out.println("파일 이름 : "+fileName);
+					fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
+					long fileSize = item.getSize();
+					
+					File file = new File(path + "/" + fileName);
+					item.write(file);
+					
+					board.setFilename(fileName);
+					board.setFilesize(fileSize);
+				}		
+			}
+		}
+		 
+		
 		dao.insertBoard(board);
 	}
 

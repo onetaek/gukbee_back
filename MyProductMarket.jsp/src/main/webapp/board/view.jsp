@@ -52,12 +52,15 @@ System.out.println("sessionId?????" + sessionId);
 			</div>
 				
 				
+			<%if(notice.getFilename() !=null && notice.getFilename().isEmpty()){%>
+				<div>
+					<label class="col-sm-2 control-label">이미지</label>
+					<div class="col-sm-8" style="word-break:break-all;">
+						<img src="/img/<%=notice.getFilename() %>" class="user-gallery-image"/>
+					</div>
+				</div>	
+			<%} %>
 			
-				
-				
-				
-				
-				
 			<div class="form-group row">
 				<div class="col-sm-offset-2 col-sm-10">
 					<%

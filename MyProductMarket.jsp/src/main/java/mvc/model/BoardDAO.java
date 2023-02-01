@@ -158,11 +158,13 @@ public class BoardDAO {
 	}
 
 	public void insertBoard(BoardDTO board) {
+		System.out.println("insertBoard실행!");
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "insert into board (id, name, subject ,content," + "regist_day, hit, ip ) "
-				+ "values( ?,?,?,?,now(),0,?)";
+		String sql = "insert into board (id, name, subject ,content," 
+				+ "regist_day, hit, ip,filename,filesize ) "
+				+ "values( ?,?,?,?,now(),0,?,?,?)";
 		try {
 			conn = DBConnection.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -171,6 +173,9 @@ public class BoardDAO {
 			pstmt.setString(3, board.getSubject());
 			pstmt.setString(4, board.getContent());
 			pstmt.setString(5, board.getIp());
+			pstmt.setString(6, board.getFilename());
+			pstmt.setLong(7, board.getFilesize());
+			System.out.println("insertboard executeUpdate실행!");
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
