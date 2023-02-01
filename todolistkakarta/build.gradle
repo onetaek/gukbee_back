@@ -1,0 +1,64 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+group 'com.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitVersion = '5.8.2'
+}
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    compileOnly('javax.servlet:javax.servlet-api:4.0.1')
+    implementation('org.glassfish.jersey.containers:jersey-container-servlet:2.34')
+    implementation('org.glassfish.jersey.media:jersey-media-json-jackson:2.34')
+    implementation('org.glassfish.jersey.inject:jersey-cdi2-se:2.34')
+    implementation('org.jboss.weld.se:weld-se-core:3.1.8.Final')
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+
+
+    // https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
+    implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.1.2'
+// https://mvnrepository.com/artifact/javax.servlet/jstl
+    implementation group: 'javax.servlet', name: 'jstl', version: '1.2'
+// https://mvnrepository.com/artifact/org.json/json
+//    implementation group: 'org.json', name: 'json', version: '20220924'
+// https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils
+    implementation group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
+
+    implementation group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version: '2.33'
+    implementation group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: '2.33'
+    implementation group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '2.33'
+
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version:'1.18.22'
+    //    connection fool
+    implementation 'com.zaxxer:HikariCP:5.0.0'
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
+    testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+
+//  modelMapper 라이브러리
+//    DTO -> VO,  VO -> DTO 변환을 담당한다. modelMapper getter/setter 등을 이용해서 객체의 정보를 다음객체로 복사흐는 기능을 제공한다.
+    implementation 'org.modelmapper:modelmapper:3.0.0'
+}
+
+test {
+    useJUnitPlatform()
+}
