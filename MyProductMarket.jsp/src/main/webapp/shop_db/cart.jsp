@@ -33,6 +33,7 @@
 					<td align="left"><span href="./deleteCart.jsp"
 						onclick="deleteCart();" class="btn btn-danger">삭제하기</span></td>
 					<td align="right"><a href="../order/shippingInfo.jsp?cartId=<%=cartId %>" class="btn btn-success">주문하기</a></td>
+					<td align="right"><a href="../order/form.do" class="btn btn-success">새로 추가한 주문하기</a></td>
 				</tr>
 
 			</table>
