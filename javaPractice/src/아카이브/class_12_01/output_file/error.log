@@ -1,0 +1,12 @@
+----------------------
+에러발생시간Thu Dec 01 10:47:33 KST 2022
+java.lang.ArithmeticException: / by zero
+	at class_12_01.test03.main(test03.java:21)
+에러 메시지/ by zero
+----------------------
+----------------------
+에러발생시간Thu Dec 01 10:47:40 KST 2022
+java.lang.ArithmeticException: / by zero
+	at class_12_01.test03.main(test03.java:21)
+에러 메시지/ by zero
+----------------------
